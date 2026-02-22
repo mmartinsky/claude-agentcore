@@ -42,6 +42,7 @@ async def handler(payload: dict):
     Each yielded value is JSON-serialised and sent as:
         data: <json>\n\n
     """
+    logger.info("payload: %s", payload)
     prompt = payload.get("prompt", "")
     session_id = payload.get("session_id", "default")
 
