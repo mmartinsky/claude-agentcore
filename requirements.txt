@@ -1,0 +1,8 @@
+# Core agent framework — Claude Agent SDK
+# Provides: query(), ClaudeAgentOptions, AssistantMessage, ResultMessage, TextBlock
+claude-agent-sdk==0.1.38
+
+# AWS Bedrock AgentCore runtime server wrapper
+# Provides: BedrockAgentCoreApp, @app.entrypoint
+# Transitively installs: starlette, uvicorn, pydantic, boto3, botocore
+bedrock-agentcore==1.3.1
