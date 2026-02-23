@@ -20,12 +20,31 @@ import logging
 import os
 import sys
 
+import boto3
+import watchtower
 from bedrock_agentcore import BedrockAgentCoreApp
 
 from agent import run_agent
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
+
+# Wire up CloudWatch Logs if CW_LOG_GROUP is set (injected by deploy.sh).
+# Falls back gracefully if boto3 credentials aren't available (e.g. local dev).
+_cw_log_group = os.environ.get("CW_LOG_GROUP")
+if _cw_log_group:
+    try:
+        _cw_handler = watchtower.CloudWatchLogHandler(
+            log_group_name=_cw_log_group,
+            log_stream_name="app-logs",
+            boto3_client=boto3.client("logs", region_name=os.environ.get("AWS_DEFAULT_REGION", "us-east-1")),
+            create_log_group=False,
+        )
+        _cw_handler.setLevel(logging.INFO)
+        logging.root.addHandler(_cw_handler)
+        logger.info("CloudWatch Logs handler active → %s", _cw_log_group)
+    except Exception as _e:
+        logger.warning("CloudWatch Logs handler setup failed: %s", _e)
 
 app = BedrockAgentCoreApp()
 
