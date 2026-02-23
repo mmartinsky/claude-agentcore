@@ -196,7 +196,8 @@ resp = client.update_agent_runtime(
     agentRuntimeId="${EXISTING_ID}",
     agentRuntimeArtifact={"containerConfiguration": {"containerUri": "${IMAGE_URI}"}},
     roleArn="${ROLE_ARN}",
-    environmentVariables={"ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"}
+    environmentVariables={"ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"},
+    networkConfiguration={"networkMode": "PUBLIC"}
 )
 print(resp["agentRuntimeArn"])
 PYEOF
