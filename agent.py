@@ -8,7 +8,7 @@ Imported by main.py and wrapped in the BedrockAgentCoreApp entrypoint.
 
 import logging
 
-from claude_agent_sdk import AssistantMessage, ClaudeAgentOptions, ClaudeSDKClient, ResultMessage, UserMessage
+from claude_agent_sdk import AssistantMessage, ClaudeAgentOptions, ResultMessage, UserMessage, query
 import claude_agent_sdk._internal.message_parser as _mp
 
 logger = logging.getLogger(__name__)
@@ -62,16 +62,14 @@ async def run_agent(prompt: str, cwd: str = "/tmp") -> str:
     )
 
     result = None
-    async with ClaudeSDKClient(options) as client:
-        await client.query(prompt)
-        async for message in client.receive_response():
-            if message is None:
-                continue
-            if isinstance(message, AssistantMessage):
-                logger.info("AssistantMessage: %s", message)
-            elif isinstance(message, UserMessage):
-                logger.info("UserMessage (tool result): %s", message)
-            elif isinstance(message, ResultMessage):
-                result = f"[Agent error: {message.result}]" if message.is_error else (message.result or "")
+    async for message in query(prompt=prompt, options=options):
+        if message is None:
+            continue
+        if isinstance(message, AssistantMessage):
+            logger.info("AssistantMessage: %s", message)
+        elif isinstance(message, UserMessage):
+            logger.info("UserMessage (tool result): %s", message)
+        elif isinstance(message, ResultMessage):
+            result = f"[Agent error: {message.result}]" if message.is_error else (message.result or "")
 
     return result or "[Agent error: no result returned]"

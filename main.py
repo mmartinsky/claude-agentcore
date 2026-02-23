@@ -18,12 +18,13 @@ concurrent invocations do not interfere with each other's file operations.
 
 import logging
 import os
+import sys
 
 from bedrock_agentcore import BedrockAgentCoreApp
 
 from agent import run_agent
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 app = BedrockAgentCoreApp()
