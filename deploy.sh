@@ -185,7 +185,6 @@ ARTIFACT_JSON="{\"containerConfiguration\": {\"containerUri\": \"${IMAGE_URI}\"}
 
 if [ -n "${EXISTING_ID:-}" ]; then
     echo "      Updating existing runtime (id: ${EXISTING_ID})..."
-    CW_LOG_GROUP="/aws/bedrock-agentcore/runtimes/${EXISTING_ID}-DEFAULT"
     AGENT_ARN="$(python3 - <<PYEOF
 import boto3, json
 client = boto3.client(
@@ -199,7 +198,6 @@ resp = client.update_agent_runtime(
     roleArn="${ROLE_ARN}",
     environmentVariables={
         "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}",
-        "CW_LOG_GROUP": "${CW_LOG_GROUP}",
     },
     networkConfiguration={"networkMode": "PUBLIC"}
 )
