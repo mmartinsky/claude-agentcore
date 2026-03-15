@@ -43,7 +43,7 @@ pytest tests/test_agent.py -v -s
 
 ## Key facts
 
-- Runtime ID: `claude_agentcore_agent-g43zdcBhfT` in `us-east-1`
+- Runtime ID: `claude_agentcore_agent-znXwxnEJ9p` in `us-east-1` (CloudFormation stack: `AgentCoreStack`)
 - Container must listen on port 8080 and respond to `GET /ping`
 - Use `query()` not `ClaudeSDKClient` — one-shot, stateless, simpler
 - Log to `sys.stdout` — AgentCore captures stdout for CloudWatch, not stderr
