@@ -1,2 +1,4 @@
 __pycache__
 .last_deploy.env
+cdk.out/
+cdk-outputs.json
