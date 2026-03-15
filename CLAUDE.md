@@ -18,7 +18,8 @@ full agent turn and streams the result back as SSE.
 
 - `main.py` — BedrockAgentCoreApp entrypoint
 - `agent.py` — calls `query()` from `claude_agent_sdk`
-- `deploy.sh` — builds arm64 Docker image, pushes to ECR, updates the runtime
+- `deploy.sh` — runs `cdk deploy` (CDK handles image build/push, IAM role, and runtime)
+- `cdk/stack.py` — CDK stack: DockerImageAsset + AgentCore Runtime + IAM role
 - `.github/workflows/deploy.yml` — CI/CD: runs local tests then calls `deploy.sh`
 
 ## Deploy
